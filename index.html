@@ -34,8 +34,12 @@
 
         // Scene setup
         const scene = new THREE.Scene();
+        scene.background = null;
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        const renderer = new THREE.WebGLRenderer({ 
+            antialias: true,
+            alpha: true 
+        });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('container').appendChild(renderer.domElement);
 
@@ -50,6 +54,15 @@
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
+        controls.enableZoom = true;
+        controls.mouseButtons = {
+            LEFT: THREE.MOUSE.ROTATE,
+            MIDDLE: THREE.MOUSE.DOLLY,
+            RIGHT: THREE.MOUSE.PAN
+        };
+        // Disable scroll capture
+        controls.enableZoom = false;  // This prevents zoom on scroll
+        controls.mouseButtons.MIDDLE = null;  // This disables middle mouse zoom
 
         // Position camera
         camera.position.z = 5;
